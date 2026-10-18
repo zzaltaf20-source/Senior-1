@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Birthday Surprise</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Confetti Canvas -->
+  <canvas id="fxCanvas"></canvas>
+
+  <!-- Background Lighting -->
+  <div class="ambient-glow"></div>
+
+  <!-- Top Inventory Bar -->
+  <header class="top-bar">
+    <div class="bar-content">
+      <span class="bar-label">SECRET LETTERS:</span>
+      <div class="letter-slots">
+        <div class="slot" id="slot1">?</div>
+        <div class="slot" id="slot2">?</div>
+        <div class="slot" id="slot3">?</div>
+        <div class="slot" id="slot4">?</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-viewport">
+
+    <!-- ================= INTRO ================= -->
+    <section class="game-screen active" id="screenIntro">
+      <div class="glass-card text-center">
+        <span class="step-badge">BIRTHDAY SURPRISE</span>
+        <h1 class="main-title">A Special Surprise</h1>
+        <p class="sub-text">
+          Complete 4 quick levels to collect 4 secret letters. Enter the letters at the end to unlock your birthday surprise.
+        </p>
+        <button class="btn-primary" onclick="goToScreen(1)">Start &rarr;</button>
+      </div>
+    </section>
+
+    <!-- ================= LEVEL 1: POP THE BUBBLES ================= -->
+    <section class="game-screen" id="screenLvl1">
+      <div class="glass-card text-center">
+        <span class="step-badge">LEVEL 01 OF 04</span>
+        <h2 class="section-title">Pop the Bubbles</h2>
+        <p class="sub-text">Tap all 6 floating bubbles to reveal the first letter.</p>
+        
+        <div class="bubble-counter" id="bubbleCounter">6 remaining</div>
+
+        <div class="bubble-area" id="bubbleArea">
+          <button class="gold-bubble" onclick="popBubble(this)" aria-label="Bubble 1"></button>
+          <button class="gold-bubble" onclick="popBubble(this)" aria-label="Bubble 2"></button>
+          <button class="gold-bubble" onclick="popBubble(this)" aria-label="Bubble 3"></button>
+          <button class="gold-bubble" onclick="popBubble(this)" aria-label="Bubble 4"></button>
+          <button class="gold-bubble" onclick="popBubble(this)" aria-label="Bubble 5"></button>
+          <button class="gold-bubble" onclick="popBubble(this)" aria-label="Bubble 6"></button>
+        </div>
+
+        <div class="reward-box hide" id="reward1">
+          <span class="reward-tag">Letter 1 Found</span>
+          <div class="big-letter">W</div>
+          <button class="btn-primary" onclick="goToScreen(2)">Next Level &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LEVEL 2: CARD MATCH (12 CARDS) ================= -->
+    <section class="game-screen" id="screenLvl2">
+      <div class="glass-card text-center">
+        <span class="step-badge">LEVEL 02 OF 04</span>
+        <h2 class="section-title">Card Match</h2>
+        <p class="sub-text">Find all 6 matching pairs to reveal the second letter.</p>
+        
+        <div class="cards-grid" id="cardsGrid">
+          <!-- 12 Cards injected by JS -->
+        </div>
+
+        <div class="reward-box hide" id="reward2">
+          <span class="reward-tag">Letter 2 Found</span>
+          <div class="big-letter">I</div>
+          <button class="btn-primary" onclick="goToScreen(3)">Next Level &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LEVEL 3: BLOW THE CANDLES ================= -->
+    <section class="game-screen" id="screenLvl3">
+      <div class="glass-card text-center">
+        <span class="step-badge">LEVEL 03 OF 04</span>
+        <h2 class="section-title">Make a Wish</h2>
+        <p class="sub-text">Tap each of the 5 candles to blow them out.</p>
+
+        <div class="candle-counter" id="candleCounter">5 candles lit</div>
+
+        <div class="candles-container">
+          <div class="candle" onclick="extinguishCandle(this)">
+            <div class="flame"></div>
+            <div class="wick"></div>
+            <div class="candle-body"></div>
+          </div>
+          <div class="candle" onclick="extinguishCandle(this)">
+            <div class="flame"></div>
+            <div class="wick"></div>
+            <div class="candle-body"></div>
+          </div>
+          <div class="candle" onclick="extinguishCandle(this)">
+            <div class="flame"></div>
+            <div class="wick"></div>
+            <div class="candle-body tall"></div>
+          </div>
+          <div class="candle" onclick="extinguishCandle(this)">
+            <div class="flame"></div>
+            <div class="wick"></div>
+            <div class="candle-body"></div>
+          </div>
+          <div class="candle" onclick="extinguishCandle(this)">
+            <div class="flame"></div>
+            <div class="wick"></div>
+            <div class="candle-body"></div>
+          </div>
+        </div>
+        <div class="candle-base"></div>
+
+        <div class="reward-box hide" id="reward3">
+          <span class="reward-tag">Letter 3 Found</span>
+          <div class="big-letter">S</div>
+          <button class="btn-primary" onclick="goToScreen(4)">Next Level &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LEVEL 4: SCRATCH CARD ================= -->
+    <section class="game-screen" id="screenLvl4">
+      <div class="glass-card text-center">
+        <span class="step-badge">LEVEL 04 OF 04</span>
+        <h2 class="section-title">Scratch Card</h2>
+        <p class="sub-text">Scratch the gold card to reveal the final letter.</p>
+
+        <div class="scratch-frame">
+          <div class="scratch-secret">
+            <span class="secret-char">H</span>
+          </div>
+          <canvas id="scratchCanvas"></canvas>
+        </div>
+
+        <div class="reward-box hide" id="reward4">
+          <span class="reward-tag">All 4 Letters Collected</span>
+          <button class="btn-primary" onclick="goToScreen(5)">Unlock Birthday Gift &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LEVEL 5: UNLOCK THE GIFT BOX ================= -->
+    <section class="game-screen" id="screenUnlock">
+      <div class="glass-card text-center">
+        
+        <div id="unlockPanel">
+          <span class="step-badge">FINAL STEP</span>
+          <h2 class="section-title">Unlock Your Gift</h2>
+          <p class="sub-text">Enter the 4 letters you collected to open the box:</p>
+
+          <div class="input-row">
+            <input type="text" maxlength="1" class="char-input" id="c1" autofocus autocomplete="off" />
+            <input type="text" maxlength="1" class="char-input" id="c2" autocomplete="off" />
+            <input type="text" maxlength="1" class="char-input" id="c3" autocomplete="off" />
+            <input type="text" maxlength="1" class="char-input" id="c4" autocomplete="off" />
+          </div>
+
+          <button class="btn-primary" onclick="checkCode()">Open Box</button>
+        </div>
+
+        <!-- The Gift Box Visual -->
+        <div class="gift-box-area" id="giftBoxArea">
+          <div class="gift-icon" id="giftIcon">
+            <svg viewBox="0 0 24 24" width="70" height="70" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M20 12v10H4V12"></path>
+              <path d="M2 7h20v5H2z"></path>
+              <path d="M12 22V7"></path>
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+          </div>
+
+          <!-- FINALE: ONLY MAIN PHOTO -->
+          <div class="photo-reveal" id="photoReveal">
+            <div class="photo-frame">
+              <img
+                src="main_photo.jpg"
+                alt="Birthday Photo"
+                class="photo-img"
+                onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80'"
+              />
+            </div>
+            <h1 class="photo-title">HAPPY BIRTHDAY!</h1>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
